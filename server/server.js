@@ -4,6 +4,11 @@ import * as dotenv from "dotenv";
 import express from "express";
 import { Server } from "socket.io";
 
+import {
+  generateLocationMessage,
+  generateMessage,
+} from "./utils/generateMessage.js";
+
 dotenv.config();
 
 const app = express();
@@ -19,29 +24,27 @@ io.on("connection", (socket) => {
   console.log("A new user just connected");
 
   // Create custom server event to the new user
-  socket.emit("welcomeMessage", {
-    from: "Admin",
-    text: "Welcome to the chat app",
-    createdAt: new Date().getTime(),
-  });
+  socket.emit(
+    "newMessage",
+    generateMessage("Admin", "Welcome to the chat app")
+  );
 
   // Create a broadcasting event for everybody else but new user
-  socket.broadcast.emit("welcomeMessage", {
-    from: "Admin",
-    text: "New user joined",
-    createdAt: new Date().getTime(),
-  });
+  socket.broadcast.emit(
+    "newMessage",
+    generateMessage("Admin", "New user joined the chat")
+  );
 
   // Custom listener from user
-  socket.on("createMessage", (data) => {
-    console.log("Create message", data);
-
+  socket.on("createMessage", ({ from, text }, callback) => {
     // Create a server custom event for all connected
-    io.emit("newMessage", {
-      from: data.from,
-      text: data.text,
-      createdAt: new Date().getTime(),
-    });
+    io.emit("newMessage", generateMessage(from, text));
+
+    if (callback) callback("This is Server"); // Acknowledgement
+  });
+
+  socket.on("createLocationMessage", ({ from, lat, lng }) => {
+    io.emit("newLocationMessage", generateLocationMessage(from, { lat, lng }));
   });
 
   socket.on("disconnect", () => {

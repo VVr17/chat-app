@@ -1,11 +1,12 @@
-import { createChatItem, createLocationItem } from "./createMessageItem.js";
+import {
+  createChatItem,
+  createLocationItem,
+  createUserItem,
+} from "./createMarkup.js";
 
 window.addEventListener("load", onLoad);
 
 function onLoad() {
-  // Ask user for a name
-  const username = prompt(`What is you name?`, "Anonym");
-
   // Client listeners
   form.addEventListener("submit", handleSubmit);
   sendLocation.addEventListener("click", handleLocationClick);
@@ -15,13 +16,29 @@ function onLoad() {
 
   socket.on("connect", () => {
     console.log("Connected to server");
+
+    // Get params: "name" and "room"
+    const searchQuery = window.location.search.substring(1);
+    const params = JSON.parse(
+      '{"' +
+        decodeURI(searchQuery)
+          .replace(/&/g, '","')
+          .replace(/\+/g, " ")
+          .replace(/=/g, '":"') +
+        '"}'
+    );
+
+    socket.emit("join", params, (err) => {
+      if (err) {
+        alert(err);
+        window.location.href = "/";
+      } else {
+        console.log("No Error");
+      }
+    });
   });
 
   // Custom listener from server
-  socket.on("newMessage", (message) => {
-    console.log("<--", message);
-  });
-
   socket.on("newMessage", (data) => {
     createChatItem(data);
   });
@@ -34,19 +51,19 @@ function onLoad() {
     console.log("Disconnected from server");
   });
 
+  socket.on("updateUsersList", (users) => {
+    createUserItem(users);
+  });
+
   function handleSubmit(event) {
     event.preventDefault();
     const message = event.target.elements[0].value;
 
     // Create a custom client event
     if (message) {
-      socket.emit(
-        "createMessage",
-        { from: username, text: message },
-        (serverMessage) => {
-          console.log("Got it. ", serverMessage);
-        }
-      );
+      socket.emit("createMessage", message, (serverMessage) => {
+        console.log("Got it. ", serverMessage);
+      });
     }
 
     event.target.reset();
@@ -59,9 +76,7 @@ function onLoad() {
 
     navigator.geolocation.getCurrentPosition(
       (position) => {
-        console.log("position.coords", position.coords);
         socket.emit("createLocationMessage", {
-          from: username,
           lat: position.coords.latitude,
           lng: position.coords.longitude,
         });

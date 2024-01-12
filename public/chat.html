@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="./styles.css">
+  <title>Chat room</title>
+</head>
+
+<body class="chat">
+  <div class="chat__sidebar">
+    <h3>People</h3>
+    <div id="usersList"></div>
+  </div>
+
+  <div class="chat__main">
+    <!-- Messages-->
+    <ul id="messagesList" class="chat__messages"></ul>
+
+    <div class="chat__footer">
+      <!-- Message input form -->
+      <form id="form">
+        <input id="input" name="message" type="text" placeholder="Message" autofocus autocomplete="off" required />
+        <button type="submit" id="submit-btn">Send</button>
+      </form>
+      <!-- Location button -->
+      <button id="sendLocation">Send location</button>
+    </div>
+  </div>
+
+  <!-- Message template -->
+  <script id="message-template" type="text/template">
+  <div class="message__title">
+    <h4>{{from}}</h4>
+    <span>{{createdAt}}</span>
+  </div>
+  <div class="message__body">
+    <p>{{text}}</p>
+  </div>
+  </script>
+
+  <!-- Location message template -->
+  <script id="location-message-template" type="text/template">
+  <div class="message__title">
+    <h4>{{from}}</h4>
+    <span>{{createdAt}}</span>
+  </div>
+  <div class="message__body">
+    <a href="{{url}}" target="_blank">My current location</a>
+  </div>
+  </script>
+
+  <!-- "moment.js" lib -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.30.1/moment-with-locales.min.js"
+    integrity="sha512-4F1cxYdMiAW98oomSLaygEwmCnIP38pb4Kx70yQYqRwLVCs3DbRumfBq82T08g/4LJ/smbFGFpmeFlQgoDccgg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+  <!-- mustache.js lib -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/0.1/mustache.min.js"
+    integrity="sha512-3GRj7sme01zpWwRNPNy48Rda1bD9cq34lqYG5vb8ZXGc+wRqsoBJ3+AC25IYW5w5SrWlzHqIpNIxZt5QF9sXLg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+  <!-- Socket.io src -->
+  <!-- <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script> --> <!-- OR -->
+  <script src="/socket.io/socket.io.js"></script>
+  <script type="module" src="./js/chat.js"></script>
+
+</body>
+
+</html>

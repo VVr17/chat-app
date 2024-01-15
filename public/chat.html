@@ -2,16 +2,16 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="./styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="./styles.css" />
   <title>Chat room</title>
 </head>
 
 <body class="chat">
   <div class="chat__sidebar">
-    <h3>People</h3>
-    <div id="usersList"></div>
+    <h2>People</h2>
+    <ul id="usersList"></ul>
   </div>
 
   <div class="chat__main">
@@ -31,25 +31,29 @@
 
   <!-- Message template -->
   <script id="message-template" type="text/template">
-  <div class="message__title">
-    <h4>{{from}}</h4>
-    <span>{{createdAt}}</span>
-  </div>
-  <div class="message__body">
-    <p>{{text}}</p>
-  </div>
-  </script>
+      <li class="message">
+        <div class="message__title">
+          <h3>{{from}}</h3>
+          <span>{{createdAt}}</span>
+        </div>
+        <div class="message__body">
+          <p>{{text}}</p>
+        </div>
+      </li>
+    </script>
 
   <!-- Location message template -->
   <script id="location-message-template" type="text/template">
-  <div class="message__title">
-    <h4>{{from}}</h4>
-    <span>{{createdAt}}</span>
-  </div>
-  <div class="message__body">
-    <a href="{{url}}" target="_blank">My current location</a>
-  </div>
-  </script>
+      <li class="message">
+        <div class="message__title">
+          <h3>{{from}}</h3>
+          <span>{{createdAt}}</span>
+        </div>
+        <div class="message__body">
+          <a href="{{url}}" target="_blank">My current location</a>
+        </div>
+      </li>
+    </script>
 
   <!-- "moment.js" lib -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.30.1/moment-with-locales.min.js"
@@ -62,10 +66,10 @@
     crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
   <!-- Socket.io src -->
-  <!-- <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script> --> <!-- OR -->
+  <!-- <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script> -->
+  <!-- OR -->
   <script src="/socket.io/socket.io.js"></script>
   <script type="module" src="./js/chat.js"></script>
-
 </body>
 
 </html>

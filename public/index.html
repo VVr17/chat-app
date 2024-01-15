@@ -9,25 +9,27 @@
 </head>
 
 <body class="centered-form">
-  <div class="centered-form__form">
-    <form action="/chat.html">
-      <div class="form-field">
-        <h3>Join Chat</h3>
-      </div>
-      <div class="form-field">
-        <label>Display name</label>
-        <input type="text" name="name" autofocus>
-      </div>
-      <!-- TODO: Add select for rooms -->
-      <div class="form-field">
-        <label>Room name</label>
-        <input type="text" name="room" autofocus>
-      </div>
-      <div class="form-field">
-        <button>Join</button>
-      </div>
-    </form>
-  </div>
+  <form class="centered-form__form" action="/chat.html">
+    <h2>Join Chat</h2>
+
+    <label>
+      <span>Display name</span>
+      <input type="text" name="name" autofocus>
+    </label>
+
+    <label>
+      <span>Room name</span>
+      <select name="room" autofocus>
+        <option value="HTML">HTML</option>
+        <option value="JavaScript">JavaScript</option>
+        <option value="React">React</option>
+        <option value="Vue">Vue</option>
+        <option value="Nodejs">Nodejs</option>
+      </select>
+    </label>
+
+    <button>Join</button>
+  </form>
 
 </body>
 

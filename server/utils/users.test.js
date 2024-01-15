@@ -37,8 +37,8 @@ describe("Users", () => {
     expect(users.users).toEqual([newUser]);
   });
 
-  it("Should return names for specified 'Node; room ", () => {
-    const filteredUsers = users.getUsersByRoom("Node");
+  it("Should return names for specified 'Nodejs' room ", () => {
+    const filteredUsers = users.getUsersByRoom("Nodejs");
     expect(filteredUsers).toEqual(["Mike", "John"]);
   });
 
